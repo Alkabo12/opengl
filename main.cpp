@@ -1,276 +1,487 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
-
 #include <GL/glut.h>
 #include<math.h>
-
 #include<iostream>
 #include <stdlib.h>
-
 #include <windows.h>
-
 using namespace std;
-
 #include <mmsystem.h>
-#include <vector>
+void timer(int);
+void tree_six_line();
+void tree_trangle();
+void tree_trangles();
+void tree_circle();
+void sun();
+void cloud_left();
+void cloud_middle();
+void cloud_right();
+void sea_left();
+void sea_right();
+void face();
+void stomach();
+void nickie();
+void leg();
+void left_hand();
+void right_hand();
+void left_leg();
+void right_leg();
+void eye_left();
+void eye_right();
+void mouth();
+void nose_left();
+void nose_right();
+void line_body();
+void line_stomach();
+void line_leg();
+void line_left_hand();
+void line_right_hand();
+void background();
 
-#include <cstdlib>
-# define PI 3.14159265358979323846
-#include<cstdio>
+void display();
+void reshape(int w,int h);
 
+int main(int argc,char**argv)
+{
+    glutInit(&argc,argv);
+    glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH);
 
-static float x_player1 = -0.50;
+    glutInitWindowSize(1200,800);
+glutInitWindowPosition(200,0);
 
-static float y_player1 = 0.18;
+    glutCreateWindow("beshoy19102706/momen19102610/reem19101002");
 
-static float x_player2 =-0.50;
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutTimerFunc(1000,timer,0);
 
-static float y_player2 = -0.18;
+sndPlaySound("D:\\My Projects\\opengl\\7th\\music_12th.wav",SND_ASYNC);
+    glutMainLoop();
+}
+static float x_left=0.50;
+static float x_right=-0.50;
+static float back_groud_move=-1;
+static float rotate_move=0;
 
-static float x_baffles1 =0.8;
-
-static float y_baffles1 = -0.25;
-
-static float x_baffles2 =0.8;
-
-static float y_baffles2 = 0.23;
-
-static float x_circle =3;
-
-static float y_circle = -0.6;
-
-
-static float x_cone =2;
-
-static float y_cone = 0.5;
-
-static int postion_baffles1 = 1;
-static int postion_baffles2 = 1;
-static int postion_circle = 1;
-static int postion_cone= 1;
-
-
+static int postion_monster=1;
+static int postion_shapes=-1;
+static int postion_background=1;
 void timer(int)
 {
     glutPostRedisplay();
-    glutTimerFunc(1000/60,timer,0);
+    glutTimerFunc(9000/60,timer,0);
 
 
-switch(postion_baffles1){
+rotate_move+=0.8; //rotated
+if(rotate_move>360.0){
+    rotate_move=rotate_move-360.0;
+}
+switch(postion_monster){
 case 1:
 
-    if(x_baffles1>-0.6)
+    if(x_right<1.5)
         {
-            x_baffles1-=0.009;
-
+        x_right+=0.056;
     }
-
     else
-         x_baffles1=0.4;
+        postion_monster=-1;
     break;
 
+case -1:
+ /* if(x_right>-0.8){                   // return
+       x_right-=0.056;
+    }
+     else
+    postion_monster=1;
+     break;*/
+
+   postion_monster=1;            //start
+    x_right=-0.9;
+    if(x_right<1.4)
+        {
+        x_right+=0.056;
+    }
+    else
+        postion_monster=-1;
+    break;
+
+
 }
-switch(postion_baffles2){
+switch(postion_shapes){
+case -1:
+
+    if(x_left>-1.2)
+        {
+        x_left-=0.056;
+    }
+    else
+        postion_shapes=1;
+    break;
+
+case 1:
+   /*if(x_left<0.7){                // return
+      x_left+=0.056;
+    }
+   else
+    postion_shapes=-1;
+  break;*/
+
+      postion_shapes=-1;           //start
+        x_left=0.9;
+        if(x_left>-1.3){
+          x_left-=0.056;
+    }
+    else
+        postion_shapes=1;
+    break;
+}
+switch(postion_background){
 case 1:
 
-    if(x_baffles2>-0.6)
-        {x_baffles2-=0.009;
-
+    if(back_groud_move<1)
+        {
+        back_groud_move+=0.015;
     }
-
     else
-         x_baffles2=0.4;
+        postion_background=-1;
     break;
 
-}
-
-switch(postion_circle){
-case 1:
-
-    if(x_circle>-3.3)
-    {
-        x_circle-=0.04;
-
+case -1:
+    if(back_groud_move>-1){
+        back_groud_move-=0.056;
     }
-
     else
-         x_circle=3.3;
+        postion_background=1;
     break;
 
-}
-switch(postion_cone){
-case 1:
-
-    if(x_cone>-3.3)
-    {
-        x_cone-=0.04;
-
-    }
-
-    else
-         x_cone=3.3;
-    break;
 
 }
 }
 
 
-void face(){
-    //front
-     glColor3f(1.0 ,0.5 ,0.0);
+void tree_six_line(){
+    glColor3f(0.5f, 0.35f, 0.05f);
     glBegin(GL_POLYGON);
-    glVertex3f(-0.5,0.5,0.5);
-    glVertex3f(-0.2,0.5,0.5);
-    glVertex3f(-0.2,0.1,0.5);
-     glVertex3f(-0.5,0.1,0.5);
+     glVertex2f(x_left+0.8,-0.26);
+glVertex2f(x_left+0.85,-0.26);
+glVertex2f(x_left+0.85,-0.1);
+ glVertex2f(x_left+0.8,-0.1);
     glEnd();
-//back
-     glColor3f(1.0 ,0.5 ,0.0);
+    glFlush();
+    glColor3f(0.1, 1, 0);
     glBegin(GL_POLYGON);
-     glVertex3f(-0.5,0.5,0.4);
-    glVertex3f(-0.2,0.5,0.4);
-    glVertex3f(-0.2,0.1,0.4);
-     glVertex3f(-0.5,0.1,0.4);
-   glEnd();
-
-
-//right
- glColor3f(1.0 ,0.5 ,0.0);
+    glVertex2f(x_left+0.88,-0.1);
+ glVertex2f(x_left+0.77,-0.1);
+ glVertex2f(x_left+0.74,-0.05);//
+  glVertex2f(x_left+0.77,0);
+  glVertex2f(x_left+0.88,0);
+  glVertex2f(x_left+0.91,-0.05);//
+     glEnd();
+    glFlush();
+}
+void tree_trangle(){
+     glColor3f(0.5f, 0.35f, 0.05f);
     glBegin(GL_POLYGON);
-     glVertex3f(-0.2,0.5,0.5);
-        glVertex3f(-0.2,0.1,0.5);
-     glVertex3f(-0.2,0.1,0.4);
-    glVertex3f(-0.2,0.5,0.4);
+     glVertex2f(x_left+0.6,-0.26);
+glVertex2f(x_left+0.65,-0.26);
+glVertex2f(x_left+0.65,-0.1);
+ glVertex2f(x_left+0.6,-0.1);
+    glEnd();
+
+    glColor3f(0.1, 1, 0);
+    glBegin(GL_POLYGON);
+    glVertex2f(x_left+0.68,-0.1);
+ glVertex2f(x_left+0.57,-0.1);
+ glVertex2f(x_left+0.62,0);
+     glEnd();
+    glFlush();
+}
+void tree_trangles(){
+     glColor3f(0.5f, 0.35f, 0.05f);
+    glBegin(GL_POLYGON);
+     glVertex2f(x_left+0.5,-0.26);
+glVertex2f(x_left+0.45,-0.26);
+glVertex2f(x_left+0.45,-0.1);
+ glVertex2f(x_left+0.5,-0.1);
+    glEnd();
+
+    glColor3f(0.1, 1, 0);
+    glBegin(GL_POLYGON);
+    glVertex2f(x_left+0.53,-0.1);
+ glVertex2f(x_left+0.42,-0.1);
+ glVertex2f(x_left+0.47,0);
+     glEnd();
+     glColor3f(0.4, 1, 0);
+glBegin(GL_POLYGON);
+    glVertex2f(x_left+0.53,-0.03);
+ glVertex2f(x_left+0.42,-0.03);
+ glVertex2f(x_left+0.47,0.07);
  glEnd();
+ glColor3f(x_left+0.2, 1, 0);
+glBegin(GL_POLYGON);
+    glVertex2f(x_left+0.53,0.04);
+ glVertex2f(x_left+0.42,0.04);
+ glVertex2f(x_left+0.47,0.12);
+ glEnd();
+    glFlush();
+}
+void tree_circle(){
 
+     glColor3f(0.5f, 0.35f, 0.05f);
+glBegin(GL_POLYGON);
+ glVertex2f(x_left+0.2,-0.26);
+glVertex2f(x_left+0.25,-0.26);
+glVertex2f(x_left+0.25,-0.1);
+ glVertex2f(x_left+0.2,-0.1);
+    glEnd();
+    glBegin(GL_POLYGON);
+        glColor3f(0.1, 1, 0);
+//down
+    for (int i = 0; i < 360; i++)   {
+        float angle = i*3.14/180;
+        float x = 0.07*cos(angle); //lenth
+        float y = 0.08*sin(angle); //wedth
+        glVertex2f(x_left+0.23+x , -0.05+y); //output vertex
+    }
+ glEnd();
+ //up
+ glBegin(GL_POLYGON);
+        glColor3f(0.1, 1, 0);
+for (int i = 0; i < 360; i++)   {
+        float angle = i*3.14/180;
+        float x = 0.07*cos(angle); //lenth
+        float y = 0.08*sin(angle); //wedth
+        glVertex2f(x_left+0.23+x , 0.05+y); //output vertex
+    }
+ glEnd();
  //left
- glColor3f(1.0 ,0.5 ,0.0);
-    glBegin(GL_POLYGON);
-     glVertex3f(-0.5,0.5,0.5);
-        glVertex3f(-0.5,0.1,0.5);
-     glVertex3f(-0.5,0.1,0.4);
-    glVertex3f(-0.5,0.5,0.4);
+ glBegin(GL_POLYGON);
+        glColor3f(0.1, 1, 0);
+for (int i = 0; i < 360; i++)   {
+        float angle = i*3.14/180;
+        float x = 0.07*cos(angle); //lenth
+        float y = 0.08*sin(angle); //wedth
+        glVertex2f(x_left+0.18+x , y); //output vertex
+    }
  glEnd();
+ //right
+  glBegin(GL_POLYGON);
+        glColor3f(0.1, 1, 0);
+for (int i = 0; i < 360; i++)   {
+        float angle = i*3.14/180;
+        float x = 0.07*cos(angle); //lenth
+        float y = 0.08*sin(angle); //wedth
+        glVertex2f(x_left+0.28+x , y); //output vertex
+    }
+ glEnd();
+ glFlush();
+}
+void sun(){
+    glClear(GL_DEPTH_BUFFER_BIT);
 
+    glTranslated(0.0,0.0,0.0);
+    glRotated(rotate_move,1.0,1.0,1.0);
+     glBegin(GL_POLYGON);
+        glColor3f(1.0, 1.0 ,0.0);
+for (int i = 0; i < 360; i++)   {
+        float angle = i*3.14/180;
+        float x = 0.1*cos(angle);
+        float y = 0.13*sin(angle);
+        glVertex2f(-0.88+x , 0.85+y);
+    }
+ glEnd();
+ //mouse
+ glBegin(GL_LINE_STRIP);
+    glColor3f(0,0,0);
+
+    for (int i = 180; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.06*cos(angle);
+        float y = 0.06*sin(angle);
+        glVertex2f(-0.88+x , 0.82+y);
+    }
+ glEnd();
+ //eye left
+ glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+     for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.02*cos(angle);
+        float y = 0.03*sin(angle);
+        glVertex2f(-0.92+x , 0.89+y);
+    }
+    glEnd();
+    //eye right
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+     for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.02*cos(angle);
+        float y = 0.03*sin(angle);
+        glVertex2f(-0.84+x , 0.89+y);
+    }
+    glEnd();
+ glFlush();
 }
 
-
+void cloud_left(){
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.08*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(-0.1+x+x_left , 0.88+y);
+    }
+    glEnd();
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.08*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(-0.01+x+x_left , 0.88+y);
+    }
+    glEnd();
+    glFlush();
+}
+void cloud_middle(){
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.08*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(0.3+x+x_left , 0.88+y);
+    }
+    glEnd();
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.08*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(0.39+x+x_left , 0.88+y);
+    }
+    glEnd();
+    glFlush();
+}
+void cloud_right(){
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.08*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(0.7+x+x_left , 0.88+y);
+    }
+    glEnd();
+    glBegin(GL_POLYGON);
+    glColor3f(1,1,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.08*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(0.79+x+x_left , 0.88+y);
+    }
+    glEnd();
+    glFlush();
+}
+void sea_left(){
+    glBegin(GL_POLYGON);
+    glColor3f(0,0.5,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.3*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(-0.6+x+x_left , -0.7+y);
+    }
+    glEnd();
+    glFlush();
+}
+void sea_right(){
+    glBegin(GL_POLYGON);
+    glColor3f(0,0.5,1);
+    for (int i = 0; i < 360; i++){
+        float angle = i*3.14/180;
+        float x = 0.3*cos(angle);
+        float y = 0.1*sin(angle);
+        glVertex2f(0.6+x+x_left, -0.7+y);
+    }
+    glEnd();
+    glFlush();
+}
+void face(){
+     glColor3f(1.0 ,0.5 ,0.0);
+    glBegin(GL_POLYGON);
+    glVertex2f(-0.5+x_right,0.1);
+    glVertex2f(-0.2+x_right,0.1);
+   glVertex2f(-0.2+x_right,0.5);
+   glVertex2f(-0.5+x_right,0.5);
+    glEnd();
+    glFlush();
+}
 
 void stomach(){
-    //front
     glColor3f(0.7f, 0.35f, 0.05f);
     glBegin(GL_POLYGON);
- glVertex3f(-0.5,0.1,0.5);
-    glVertex3f(-0.2,0.1,0.5);
-    glVertex3f(-0.2,-0.1,0.5);
-glVertex3f(-0.5,-0.1,0.5);
-glEnd();
-//back
-glBegin(GL_POLYGON);
- glVertex3f(-0.5,0.1,0.4);
-    glVertex3f(-0.2,0.1,0.4);
-    glVertex3f(-0.2,-0.1,0.4);
-glVertex3f(-0.5,-0.1,0.4);
-glEnd();
-
-//right
-
-    glBegin(GL_POLYGON);
-     glVertex3f(-0.2,-0.1,0.5);
-        glVertex3f(-0.2,0.1,0.5);
-     glVertex3f(-0.2,0.1,0.4);
-    glVertex3f(-0.2,-0.1,0.4);
- glEnd();
-
- //left
-
-    glBegin(GL_POLYGON);
-     glVertex3f(-0.5,-0.1,0.5);
-        glVertex3f(-0.5,0.1,0.5);
-     glVertex3f(-0.5,0.1,0.4);
-    glVertex3f(-0.5,-0.1,0.4);
- glEnd();
-
-
+ glVertex2f(-0.5+x_right,0.1);
+    glVertex2f(-0.2+x_right,0.1);
+    glVertex2f(-0.2+x_right,-0.1);
+glVertex2f(-0.5+x_right,-0.1);
+    glEnd();
+    glFlush();
 }
 void nickie(){
-    glColor3f(0.0 ,0.0 ,0.0);
    glBegin(GL_POLYGON);
-glVertex3f(-0.37,0.1,0.5);
-glVertex3f(-0.33,0.1,0.5);
-glVertex3f(-0.34,0.07,0.5);
- glVertex3f(-0.36,0.07,0.5);
+glVertex2f(-0.37+x_right,0.1);
+glVertex2f(-0.33+x_right,0.1);
+glVertex2f(-0.34+x_right,0.07);
+ glVertex2f(-0.36+x_right,0.07);
  glEnd();
-
+    glFlush();
     glBegin(GL_POLYGON);
-    glVertex3f(-0.36,0.07,0.5);
-    glVertex3f(-0.34,0.07,0.5);
-glVertex3f(-0.33,-0.03,0.5);
-glVertex3f(-0.37,-0.03,0.5);
+    glVertex2f(-0.36+x_right,0.07);
+    glVertex2f(-0.34+x_right,0.07);
+glVertex2f(-0.33+x_right,-0.03);
+glVertex2f(-0.37+x_right,-0.03);
   glEnd();
-
+    glFlush();
     glBegin(GL_POLYGON);
-    glVertex3f(-0.37,-0.03,0.5);
-    glVertex3f(-0.33,-0.03,0.5);
-    glVertex3f(-0.35,-0.06,0.5);
+    glVertex2f(-0.37+x_right,-0.03);
+    glVertex2f(-0.33+x_right,-0.03);
+    glVertex2f(-0.35+x_right,-0.06);
      glEnd();
-
+    glFlush();
 }
 void leg(){
-    //front
   glColor3f(1.0 ,0.6 ,0.0);
 glBegin(GL_POLYGON);
-glVertex3f(-0.5,-0.1,0.5);
-    glVertex3f(-0.2,-0.1,0.5);
-    glVertex3f(-0.2,-0.25,0.5);
-glVertex3f(-0.5,-0.25,0.5);
+glVertex2f(-0.5+x_right,-0.1);
+    glVertex2f(-0.2+x_right,-0.1);
+    glVertex2f(-0.2+x_right,-0.25);
+glVertex2f(-0.5+x_right,-0.25);
     glEnd();
-    //back
-glBegin(GL_POLYGON);
-glVertex3f(-0.5,-0.1,0.4);
-    glVertex3f(-0.2,-0.1,0.4);
-    glVertex3f(-0.2,-0.25,0.4);
-glVertex3f(-0.5,-0.25,0.4);
-    glEnd();
-
-   //right
-
-    glBegin(GL_POLYGON);
-     glVertex3f(-0.2,-0.25,0.5);
-        glVertex3f(-0.2,-0.1,0.5);
-     glVertex3f(-0.2,-0.1,0.4);
-    glVertex3f(-0.2,-0.25,0.4);
- glEnd();
-
- //left
-
-   glBegin(GL_POLYGON);
-     glVertex3f(-0.5,-0.25,0.5);
-        glVertex3f(-0.5,-0.1,0.5);
-     glVertex3f(-0.5,-0.1,0.4);
-    glVertex3f(-0.5,-0.25,0.4);
- glEnd();
+    glFlush();
 }
 void left_hand(){
-    //front
     glColor3f(1.0 ,0.6 ,0.0);
-glBegin(GL_TRIANGLES);
-    glVertex3f(-0.5,0.1,0.5);
-    glVertex3f(-0.55,0,0.5);
- glVertex3f(-0.5,-0.03,0.5);
+    glBegin(GL_TRIANGLES);
+ glVertex2f(-0.5+x_right,0.1);
+ glVertex2f(-0.53+x_right,0);
+ glVertex2f(-0.5+x_right,-0.03);
     glEnd();
-
+    glFlush();
 }
 
 void right_hand(){
-    //front
     glColor3f(1.0 ,0.6 ,0.0);
     glBegin(GL_TRIANGLES);
- glVertex3f(-0.2,0.1,0.5);
- glVertex3f(-0.15,0,0.5);
- glVertex3f(-0.2,-0.03,0.5);
+ glVertex2f(-0.2+x_right,0.1);
+ glVertex2f(-0.17+x_right,0);
+ glVertex2f(-0.2+x_right,-0.03);
     glEnd();
-
+    glFlush();
 }
 void left_leg(){
      glBegin(GL_POLYGON);
@@ -279,7 +490,7 @@ void left_leg(){
         float angle = i*3.14/180;
         float x = -0.08*cos(angle); //lenth
         float y = -0.13*sin(angle); //wedth
-        glVertex3f(-0.42+x , -0.25+y,0.5); //output vertex
+        glVertex2f(-0.42+x+x_right , -0.25+y); //output vertex
     }
  glEnd();
 }
@@ -290,7 +501,7 @@ void right_leg(){
         float angle = i*3.14/180;
         float x = -0.07*cos(angle); //lenth
         float y = -0.13*sin(angle); //wedth
-        glVertex3f(-0.27+x , -0.25+y,0.5); //output vertex
+        glVertex2f(-0.27+x+x_right , -0.25+y); //output vertex
     }
  glEnd();
 }
@@ -302,7 +513,7 @@ void eye_left(){
         float angle = i*3.14/180;
         float x = 0.07*cos(angle); //lenth
         float y = 0.08*sin(angle); //wedth
-        glVertex3f(-0.42+x , 0.35+y,0.5); //output vertex
+        glVertex2f(-0.42+x+x_right , 0.35+y); //output vertex
     }
  glEnd();
  glBegin(GL_POLYGON);
@@ -312,7 +523,7 @@ void eye_left(){
         float angle = i*3.14/180;
         float x = 0.04*cos(angle); //lenth
         float y = 0.05*sin(angle); //wedth
-        glVertex3f(-0.42+x , 0.35+y,0.5); //output vertex
+        glVertex2f(-0.42+x+x_right , 0.35+y); //output vertex
     }
  glEnd();
 }
@@ -324,7 +535,7 @@ void eye_right(){
         float angle = i*3.14/180;
         float x = 0.07*cos(angle); //lenth
         float y = 0.08*sin(angle); //wedth
-        glVertex3f(-0.28+x , 0.35+y,0.5); //output vertex
+        glVertex2f(-0.28+x+x_right , 0.35+y); //output vertex
     }
  glEnd();
  glBegin(GL_POLYGON);
@@ -334,7 +545,7 @@ void eye_right(){
         float angle = i*3.14/180;
         float x = 0.04*cos(angle); //lenth
         float y = 0.05*sin(angle); //wedth
-        glVertex3f(-0.28+x , 0.35+y,0.5); //output vertex
+        glVertex2f(-0.28+x+x_right , 0.35+y); //output vertex
     }
  glEnd();
 }
@@ -345,11 +556,11 @@ void mouth(){
         float angle = i*3.14/180;
         float x = 0.07*cos(angle);
         float y = 0.08*sin(angle);
-        glVertex3f(-0.35+x , 0.2+y,0.5);
+        glVertex2f(-0.35+x+x_right , 0.2+y);
     }
  glEnd();
 }
-void ear_left(){
+void nose_left(){
   glLineWidth(4);
    glBegin(GL_LINE_STRIP);
     glColor3f(0,0,0);
@@ -357,11 +568,11 @@ void ear_left(){
         float angle = i*3.14/180;
         float x = 0.07*cos(angle);
         float y = 0.2*sin(angle);
-        glVertex3f(-0.5+x ,0.5+y,0.45);
+        glVertex2f(-0.5+x+x_right ,0.5+y);
     }
  glEnd();
 }
-void ear_right(){
+void nose_right(){
       glLineWidth(4);
    glBegin(GL_LINE_STRIP);
     glColor3f(0,0,0);
@@ -369,446 +580,135 @@ void ear_right(){
         float angle = i*3.14/180;
         float x = 0.07*cos(angle);
         float y = 0.2*sin(angle);
-        glVertex3f(-0.2+x,0.5+y,0.45);
+        glVertex2f(-0.2+x+x_right,0.5+y);
     }
  glEnd();
 }
-void line_face(){
+void line_body(){
     glLineWidth(4);
-  //front
+   glBegin(GL_LINE_LOOP);
     glColor3f(0,0,0);
-    glBegin(GL_LINE_LOOP);
-    glVertex3f(-0.5,0.5,0.5);
-    glVertex3f(-0.2,0.5,0.5);
-    glVertex3f(-0.2,0.1,0.5);
-     glVertex3f(-0.5,0.1,0.5);
-    glEnd();
+    glVertex2f(-0.2+x_right,0.5);
+   glVertex2f(-0.5+x_right,0.5);
+   glVertex2f(-0.5+x_right,-0.25);
+   glVertex2f(-0.2+x_right,-0.25);
 
-//back
-
-
-    glBegin(GL_LINE_LOOP);
-     glVertex3f(-0.5,0.5,0.4);
-    glVertex3f(-0.2,0.5,0.4);
-    glVertex3f(-0.2,0.1,0.4);
-     glVertex3f(-0.5,0.1,0.4);
-   glEnd();
-
-
-//right
-
-
-    glBegin(GL_LINE_LOOP);
-     glVertex3f(-0.2,0.5,0.5);
-        glVertex3f(-0.2,0.1,0.5);
-     glVertex3f(-0.2,0.1,0.4);
-    glVertex3f(-0.2,0.5,0.4);
  glEnd();
-
-
- //left
-    glBegin(GL_LINE_LOOP);
-     glVertex3f(-0.5,0.5,0.5);
-        glVertex3f(-0.5,0.1,0.5);
-     glVertex3f(-0.5,0.1,0.4);
-    glVertex3f(-0.5,0.5,0.4);
- glEnd();
-
+    glFlush();
 }
 void line_stomach(){
      glLineWidth(4);
-   //front
-  glColor3f(0,0,0);
-   glBegin(GL_LINE_LOOP);
- glVertex3f(-0.5,0.1,0.5);
-    glVertex3f(-0.2,0.1,0.5);
-    glVertex3f(-0.2,-0.1,0.5);
-glVertex3f(-0.5,-0.1,0.5);
-glEnd();
-//back
-glBegin(GL_LINE_LOOP);
- glVertex3f(-0.5,0.1,0.4);
-    glVertex3f(-0.2,0.1,0.4);
-    glVertex3f(-0.2,-0.1,0.4);
-glVertex3f(-0.5,-0.1,0.4);
-glEnd();
-
-//right
-
-    glBegin(GL_LINE_LOOP);
-     glVertex3f(-0.2,-0.1,0.5);
-        glVertex3f(-0.2,0.1,0.5);
-     glVertex3f(-0.2,0.1,0.4);
-    glVertex3f(-0.2,-0.1,0.4);
- glEnd();
-
- //left
-
-    glBegin(GL_LINE_LOOP);
-     glVertex3f(-0.5,-0.1,0.5);
-        glVertex3f(-0.5,0.1,0.5);
-     glVertex3f(-0.5,0.1,0.4);
-    glVertex3f(-0.5,-0.1,0.4);
- glEnd();
-
+   glBegin(GL_LINES);
+    glColor3f(0,0,0);
+    glVertex2f(-0.5+x_right,0.1);
+    glVertex2f(-0.2+x_right,0.1);
+    glEnd();
+    glFlush();
 }
 void line_leg(){
      glLineWidth(4);
-  //front
+   glBegin(GL_LINES);
    glColor3f(0,0,0);
-glBegin(GL_LINE_LOOP);
-glVertex3f(-0.5,-0.1,0.5);
-    glVertex3f(-0.2,-0.1,0.5);
-    glVertex3f(-0.2,-0.25,0.5);
-glVertex3f(-0.5,-0.25,0.5);
+    glVertex2f(-0.5+x_right,-0.1);
+    glVertex2f(-0.2+x_right,-0.1);
     glEnd();
-    //back
-glBegin(GL_LINE_LOOP);
-glVertex3f(-0.5,-0.1,0.4);
-    glVertex3f(-0.2,-0.1,0.4);
-    glVertex3f(-0.2,-0.25,0.4);
-glVertex3f(-0.5,-0.25,0.4);
-    glEnd();
-
-   //right
-
-    glBegin(GL_LINE_LOOP);
-     glVertex3f(-0.2,-0.25,0.5);
-        glVertex3f(-0.2,-0.1,0.5);
-     glVertex3f(-0.2,-0.1,0.4);
-    glVertex3f(-0.2,-0.25,0.4);
- glEnd();
-
- //left
-
-  glBegin(GL_LINE_LOOP);
-     glVertex3f(-0.5,-0.25,0.5);
-        glVertex3f(-0.5,-0.1,0.5);
-     glVertex3f(-0.5,-0.1,0.4);
-    glVertex3f(-0.5,-0.25,0.4);
- glEnd();
-
+    glFlush();
 }
 void line_left_hand(){
     glLineWidth(4);
-     glColor3f(0,0,0);
-  glBegin(GL_LINE_LOOP);
-    glVertex3f(-0.5,0.1,0.5);
-    glVertex3f(-0.55,0,0.5);
- glVertex3f(-0.5,-0.03,0.5);
-    glEnd();
+   glBegin(GL_LINES);
+   glColor3f(0,0,0);
+   glVertex2f(-0.5+x_right,0.1);
+ glVertex2f(-0.53+x_right,0);
+   glEnd();
+    glLineWidth(4);
+   glBegin(GL_LINES);
+   glColor3f(0,0,0);
+   glVertex2f(-0.53+x_right,0);
+    glVertex2f(-0.5+x_right,-0.03);
+     glEnd();
+
 }
 void line_right_hand(){
      glLineWidth(4);
-    glColor3f(0,0,0);
-  glBegin(GL_LINE_LOOP);
- glVertex3f(-0.2,0.1,0.5);
- glVertex3f(-0.15,0,0.5);
- glVertex3f(-0.2,-0.03,0.5);
-    glEnd();
+   glBegin(GL_LINES);
+   glColor3f(0,0,0);
+  glVertex2f(-0.2+x_right,0.1);
+ glVertex2f(-0.17+x_right,0);
+
+ glEnd();
+ glLineWidth(4);
+   glBegin(GL_LINES);
+   glColor3f(0,0,0);
+    glVertex2f(-0.17+x_right,0);
+ glVertex2f(-0.2+x_right,-0.03);
+ glEnd();
 }
 void background(){
-     glColor3f(0,1.5,0); //green
-  glBegin(GL_POLYGON);
- glVertex3f(2,2,-2);
- glVertex3f(-2,2,-2);
- glVertex3f(-2,0,-2);
- glVertex3f(2,0,-2);
+    glBegin(GL_POLYGON); //dark blue
+      glColor3f(0,0,0.5);
+     glVertex2f(1,0.99);
+ glVertex2f(-1,0.99);
+ glVertex2f(-1,-0.26);
+  glVertex2f(1,-0.26);
+
   glEnd();
-   glLineWidth(4);
-    glColor3f(0,0,0);
-  glBegin(GL_LINES);
-  glVertex3f(1,0,-1);
- glVertex3f(-1,0,-1);
+     glBegin(GL_POLYGON);  //cyan
+      glColor3f(0,1,1);
+     glVertex2f(1,0.99+back_groud_move);
+ glVertex2f(-1,0.99+back_groud_move);
+ glVertex2f(-1,-0.26+back_groud_move);
+  glVertex2f(1,-0.26+back_groud_move);
+
   glEnd();
-}
-void baffles(){
-glPushMatrix();  // second shape
-glTranslatef (x_baffles1,y_baffles1,-1);
-glRotatef(40,0,1,0);
-glScalef(0.1f,0.1f,0.5f);
-stomach();
-glPopMatrix();
-
-glPushMatrix();     // first shape
-glTranslatef (x_baffles2,y_baffles2,-1);
-glRotatef(40,0,1,0);
-glScalef(0.1f,0.1f,0.5f);
-stomach();
-glPopMatrix();
-
-glPushMatrix();                  //circle
-glTranslated(x_circle,y_circle,-6);
-glRotated(60,1,0,0);
-glColor3f(1,0,0.5);
-glutSolidSphere(0.28,16,16);
-glPopMatrix();
-
- glPushMatrix();
-       glTranslated(x_cone,y_cone,-6);   //cone
-        glRotated(90,0,1,0);
-        glColor3f(0,0,0.5);
-        glutSolidCone(0.2,0.5,16,16);
-glPopMatrix();
+    glBegin(GL_POLYGON);//green
+      glColor3f(0.3,1,0);
+     glVertex2f(-1,-0.26);
+  glVertex2f(1,-0.26);
+  glVertex2f(1,-1);
+  glVertex2f(-1,-1);
+   glEnd();
 }
 
-
-void player1(){
-glPushMatrix();
-glTranslatef (x_player1,y_player1,-1);
-glRotatef(40,0,1,0);
-glScalef(0.1f,0.1f,0.5f);
-face();
-stomach();
-nickie();
-leg();
-left_hand();
-right_hand();
-left_leg();
-right_leg();
-eye_left();
-eye_right();
-mouth();
-ear_left();
-ear_right();
-line_face();
-line_stomach();
-line_leg();
-line_left_hand();
-line_right_hand();
-glPopMatrix();
-}
-
-void player2(){
-glPushMatrix();
-glTranslatef (x_player2,y_player2,-1);
-glRotatef(40,0,1,0);
-glScalef(0.1f,0.1f,0.5f);
-face();
-stomach();
-nickie();
-leg();
-left_hand();
-right_hand();
-left_leg();
-right_leg();
-eye_left();
-eye_right();
-mouth();
-ear_left();
-ear_right();
-line_face();
-line_stomach();
-line_leg();
-line_left_hand();
-line_right_hand();
-glPopMatrix();
-}
-
-void message1(){
-    glPushMatrix();
-    glTranslatef(0,0,-20);
-    char text[120];
-    sprintf(text, "player1 win ",4.00,8.00);
-    glColor3f(0, 0, 0);
-    glRasterPos2f( -2.9 , 0.5 );
-    for(int i = 0; text[i] != '\0'; i++)
-    {
-         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]);
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(0,0,-20);
-    char text1[120];
-    sprintf(text1, "player2 lose ",4.00,8.00);
-    glColor3f(0, 0, 0);
-    glRasterPos2f( -2.9 ,-1 );
-    for(int i = 0; text1[i] != '\0'; i++)
-    {
-         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text1[i]);
-    }
-    glPopMatrix();
-
-}
-void message2(){
-    glPushMatrix();
-    glTranslatef(0,0,-20);
-    char text[120];
-    sprintf(text, "player2 win ",4.00,8.00);
-    glColor3f(0, 0, 0);
-    glRasterPos2f( -2.9 , 0.5 );
-    for(int i = 0; text[i] != '\0'; i++)
-    {
-         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]);
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(0,0,-20);
-    char text1[120];
-    sprintf(text1, "player1 lose ",4.00,8.00);
-    glColor3f(0, 0, 0);
-    glRasterPos2f( -2.9 ,-1 );
-    for(int i = 0; text1[i] != '\0'; i++)
-    {
-         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text1[i]);
-    }
-    glPopMatrix();
-
-}
 void display()
 {
-glClearColor(0,1,1,0);
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 glLoadIdentity();
 background();
-player1();
-player2();
-baffles();
-glutSwapBuffers();
+face();
+stomach();
+leg();
+left_hand();
+right_hand();
+left_leg();
+right_leg();
+eye_left();
+eye_right();
+mouth();
+nose_left();
+nose_right();
+line_body();
+line_stomach();
+line_leg();
+line_left_hand();
+line_right_hand();
+nickie();
+tree_six_line();
+tree_trangle();
+tree_trangles();
+tree_circle();
+cloud_left();
+cloud_middle();
+cloud_right();
+sea_left();
+sea_right();
+sun();
+glFlush();
 }
-
-void display1(){
-glClearColor(0,1,1,0);
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-glLoadIdentity();
-message1();
-glutSwapBuffers();
-}
-void display2(){
-glClearColor(0,1,1,0);
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-glLoadIdentity();
-message2();
-glutSwapBuffers();
-}
- void reshapeFunc (int w, int h)
+void reshape(int w,int h)
 {
-    glViewport(0,0,(GLsizei)w,(GLsizei)h);
+ glViewport(1,1,(GLsizei)w,(GLsizei)h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective (40.0, (GLdouble)w / (GLdouble)h, 0.5, 20.0);
     glMatrixMode(GL_MODELVIEW);
-}
- void handleKeypress(unsigned char key,int x,int y)
-{
-    switch (key)
-    {
-
-      case 'a':
-               x_player1-=0.01;
-               if(x_player1<-0.55){
-                x_player1=-0.55;
-               }
-
-                  break;
-      case 'd':
-
-            x_player1+=0.01;
-            if(x_player1>0.3){
-                x_player1=0.3;
-               }
-
-            break;
-
-      case 'w':
-          y_player1+=0.01;
-
-            if(y_player1>0.25){
-                 y_player1=0.25;
-               }
-          break;
-      case's':
-           y_player1-=0.01;
-            if(y_player1<0.028){
-                y_player1=0.028;
-               }
-          break;
-  case '4':
-               x_player2-=0.01;
-               if(x_player2<-0.55){
-                x_player2=-0.55;
-               }
-                  break;
-      case '6':
-
-            x_player2+=0.01;
-             if(x_player2>0.3){
-                x_player2=0.3;
-               }
-            break;
-
-      case '8':
-          y_player2+=0.01;
-           if(y_player2>-0.05){
-                y_player2=-0.05;
-               }
-          break;
-      case '2':
-           y_player2-=0.01;
-            if(y_player2<-0.25){
-                y_player2=-0.25;
-               }
-          break;
-      case 'p':
-         glutDestroyWindow(1);    //message1
-         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-	        glutInitWindowSize(500, 500);
-            glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH)-1240)/2,(glutGet(GLUT_SCREEN_HEIGHT)-750)/2);
-            glutCreateWindow("19102706/19102610/19101002");
-            glutKeyboardFunc(handleKeypress);
-            glutDisplayFunc(display1);
-            glutReshapeFunc (reshapeFunc);
-            glutMainLoop();
-            break;
-      case 'l':
-         glutDestroyWindow(1);   //message2
-         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-	        glutInitWindowSize(500, 500);
-            glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH)-1240)/2,(glutGet(GLUT_SCREEN_HEIGHT)-750)/2);
-            glutCreateWindow("19102706/19102610/19101002");
-            glutKeyboardFunc(handleKeypress);
-            glutDisplayFunc(display2);
-            glutReshapeFunc (reshapeFunc);
-            glutMainLoop();
-            break;
-      case 'r':
-         glutDestroyWindow(1);
-         glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
-	        glutInitWindowSize(1200, 800);
-            glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH)-1240)/2,(glutGet(GLUT_SCREEN_HEIGHT)-750)/2);
-            glutCreateWindow("19102706/19102610/19101002");
-            glutKeyboardFunc(handleKeypress);
-
-            glutDisplayFunc(display);
-
-            glutReshapeFunc (reshapeFunc);
-
-            glutMainLoop();
-            break;
-      case 'e':
-            exit(0);
-            break;
-
-
- }
-glutPostRedisplay();
-}
-
-int main (int argc, char **argv)
-{
-glutInit (&argc, argv);
-glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-glutInitWindowSize(1200,800);
-glutInitWindowPosition(200,0);
-glutCreateWindow("19102706/19102610/19101002");
-
-glutDisplayFunc(display);
-glutKeyboardFunc(handleKeypress);
-glutTimerFunc(1000,timer,0);
-glutReshapeFunc (reshapeFunc);
-sndPlaySound("D:\\My Projects\\opengl\12th\\music_12th.wav",SND_ASYNC);
-glutMainLoop();
 }
